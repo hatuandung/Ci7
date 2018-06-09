@@ -13,15 +13,15 @@ public class Homework {
         int playerY = 0;
         String player = "P ";
         //Enemy
-        int enemy1X = random.nextInt(10) - 3;
-        int enemy1Y = random.nextInt(10) - 1;
+        int enemy1X = random.nextInt(10) ;
+        int enemy1Y = random.nextInt(10) ;
         String enemy1 = "E ";
-        int enemy2X = random.nextInt(10) - 1;
-        int enemy2Y = random.nextInt(10) - 2;
+        int enemy2X = random.nextInt(10) ;
+        int enemy2Y = random.nextInt(10) ;
         String enemy2 = "E ";
         //Gift
-        int giftX = random.nextInt(10) - 2;
-        int giftY = random.nextInt(10) - 2;
+        int giftX = random.nextInt(10) ;
+        int giftY = random.nextInt(10) ;
         String gift = "G ";
 
         while (true) {
@@ -37,30 +37,30 @@ public class Homework {
                 System.out.println();
             }
 
-            System.out.println("Your choice: ");
+            System.out.print("Your choice: ");
             String choice = scanner.next();
 
             if (choice == "a" || choice == "A") {
                 if (playerY == 0) {
-                    playerY = 0;
+                    playerY = 9;
                     //System.out.println("Can't move");
-                } else playerY -=1;
+                } else {playerY -=1;}
             }
             if (choice == "d" || choice == "D") {
                 if (playerY == 9) {
-                    playerY = 9;
+                    playerY = 0;
                     //System.out.println("Can't move");
-                } else playerY +=1;
+                } else {playerY +=1;}
             }
             if (choice == "w" || choice == "W") {
                 if (playerX == 0) {
-                    playerX = 0;
+                    playerX = 9;
                     //System.out.println("Can't move");
                 } else playerX--;
             }
             if (choice == "s" || choice == "S") {
                 if (playerX == 9) {
-                    playerX = 9;
+                    playerX = 0;
                     //System.out.println("Can't move");
                 } else playerX++;
             }
