@@ -1,86 +1,119 @@
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
 public class Homework {
 
     public static void main(String[] args) {
+
         Random random = new Random();
-        Scanner scanner = new Scanner(System.in);
-        //map
-        String[][] map = new String[10][10];
-        //Player
+        String[][] map = {
+                {"* ", "* ", "* ", "* "},
+                {"* ", "* ", "* ", "* "},
+                {"* ", "* ", "* ", "* "},
+                {"* ", "* ", "* ", "* "},
+        };
+
+
         int playerX = 0;
         int playerY = 0;
-        String player = "P ";
-        //Enemy
-        int enemy1X = random.nextInt(10) ;
-        int enemy1Y = random.nextInt(10) ;
-        String enemy1 = "E ";
-        int enemy2X = random.nextInt(10) ;
-        int enemy2Y = random.nextInt(10) ;
-        String enemy2 = "E ";
-        //Gift
-        int giftX = random.nextInt(10) ;
-        int giftY = random.nextInt(10) ;
-        String gift = "G ";
+        int enemy1X = 0;
+        int enemy1Y = 0;
+        int enemy2X = 0;
+        int enemy2Y = 0;
+
+        int giftX = 0;
+        int giftY = 0;
+
+        ArrayList<Point> list = new ArrayList<>();
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map.length; j++) {
+                list.add(new Point(i, j));
+            }
+        }
+        Point point = list.remove(random.nextInt(list.size()));
+        playerX = point.x;
+        playerY = point.y;
+        map[playerX][playerY] = "P ";
+
+        point = list.remove(random.nextInt(list.size()));
+        enemy1X = point.x;
+        enemy1Y = point.y;
+        map[enemy1X][enemy1Y] = "E1 ";
+
+        point = list.remove(random.nextInt(list.size()));
+        enemy2X = point.x;
+        enemy2Y = point.y;
+        map[enemy2X][enemy2Y] = "E2 ";
+
+        point = list.remove(random.nextInt(list.size()));
+        giftX = point.x;
+        giftY = point.y;
+        map[giftX][giftY] = "G ";
 
         while (true) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    map[i][j] = "* ";
-                    map[playerX][playerY] = player;
-                    map[enemy1X][enemy1Y] = enemy1;
-                    map[enemy2X][enemy2Y] = enemy2;
-                    map[giftX][giftY] = gift;
-                    System.out.print(map[i][j]);
-                }
-                System.out.println();
+
+           printMap(map);
+            System.out.println("your choice: ");
+            Scanner scanner = new Scanner(System.in);
+            String key = scanner.next();
+            map[playerX][playerY] = "*";
+            switch (key) {
+                case "a":
+                    if (playerY == 0) playerY = map.length - 1;
+                    else playerY -= 1;
+                    break;
+                case "s":
+                    if (playerX == map.length - 1) playerX = 0;
+                    else playerX += 1;
+                    break;
+                case "d":
+                    if (playerY == map.length - 1) playerY = 0;
+                    else playerY += 1;
+                    break;
+                case "w":
+                    if (playerX == 0) playerX = map.length - 1;
+                    else playerX -= 1;
+                    break;
             }
 
-            System.out.print("Your choice: ");
-            String choice = scanner.next();
-
-            if (choice == "a" || choice == "A") {
-                if (playerY == 0) {
-                    playerY = 9;
-                    //System.out.println("Can't move");
-                } else {playerY -=1;}
-            }
-            if (choice == "d" || choice == "D") {
-                if (playerY == 9) {
-                    playerY = 0;
-                    //System.out.println("Can't move");
-                } else {playerY +=1;}
-            }
-            if (choice == "w" || choice == "W") {
-                if (playerX == 0) {
-                    playerX = 9;
-                    //System.out.println("Can't move");
-                } else playerX--;
-            }
-            if (choice == "s" || choice == "S") {
-                if (playerX == 9) {
-                    playerX = 0;
-                    //System.out.println("Can't move");
-                } else playerX++;
-            }
-
-            if (enemy1X == 9) enemy1X = 0;
-            else enemy1X++;
-
-            if (enemy2Y == 9) enemy2Y = 0;
-            else enemy2Y++;
-
+            map[playerX][playerY] = "P ";
             if (playerX == giftX && playerY == giftY) {
                 System.out.println("you win");
-            } else if (playerX == enemy1X && playerY == enemy1Y) {
-                System.out.println("you lose");
-            } else if (playerX == enemy2X && playerY == enemy2Y) {
-                System.out.println("you lose");
+                break;
+            }
+            if ((playerX == enemy1X && playerY == enemy1Y) || (playerX == enemy2X && playerY == enemy2Y)) {
+                System.out.println("You Lost");
+                break;
             }
 
+
+            map[enemy1X][enemy1Y] = "* ";
+            enemy1Y = (enemy1Y + 1) % 4;
+            map[enemy1X][enemy1Y] = "E1 ";
+
+
+            map[enemy2X][enemy2Y] = "* ";
+            enemy2X = (enemy2X + 1) % 4;
+            map[enemy2X][enemy2Y] = "E2 ";
+
+            if ((playerX == enemy1X && playerY == enemy1Y) || (playerX == enemy2X && playerY == enemy2Y)) {
+                System.out.println("You Lost");
+                break;
+            }
+            map[playerX][playerY] = "P ";
         }
 
 
     }
+    static void printMap(String map[][]){
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
 }
